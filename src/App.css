@@ -1,0 +1,161 @@
+.App {
+  /* text-align: center; */
+  padding: 15px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.FullText {
+}
+
+.TitlePageTitle {
+  text-align: center;
+  font-family: 'palatino';
+  text-transform: uppercase;
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: 1.8px;
+  line-height: 40px;
+}
+.TitlePageSubtitle {
+  text-align: center;
+  font-family: 'palatino';
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 1.8px;
+  line-height: 20px;
+  padding-bottom: 20px;
+}
+.TitlePageText {
+  font-family: 'palatino';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  color: rgb(22, 22, 22);
+  padding-bottom: 10px;
+}
+
+.TestimonyTitle {
+  text-align: center;
+  font-family: 'palatino';
+  text-transform: uppercase;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 25px;
+}
+.TestimonyText {
+  font-family: 'palatino';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  color: rgb(22, 22, 22);
+  padding-bottom: 10px;
+}
+.TestimonyWitness {
+  font-family: 'palatino';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  color: rgb(22, 22, 22);
+  text-align: right;
+}
+
+
+.BookTitle {
+  text-align: center;
+  font-family: 'palatino';
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 1.8px;
+  line-height: 30px;
+}
+.BookSubtitle {
+  text-align: center;
+  font-family: 'palatino';
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 1.8px;
+  line-height: 20px;
+}
+.BookHeading {
+  font-family: 'palatino';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  font-style: italic;
+  color: rgb(66, 65, 65);
+}
+
+.ChapterTitle {
+  text-align: center;
+  font-family: 'palatino';
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 1.8px;
+  line-height: 30px;
+}
+.ChapterHeading {
+  text-align: center;
+  font-family: 'palatino';
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 20px;
+  color: rgb(66, 65, 65);
+}
+
+.VerseNumber {
+  font-family: 'palatino';
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 20px;
+  color: rgb(66, 65, 65);
+}
+
+.VerseText {
+  font-family: 'palatino';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 20px;
+  color: rgb(22, 22, 22);
+}
+
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
