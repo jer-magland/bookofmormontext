@@ -17,7 +17,7 @@ const Exp1FullTextView: FunctionComponent<Props> = ({ bookOfMormon, width, heigh
             initialPosition={Math.floor(2 * width / 3)}
         >
             <VerseBoxes bookOfMormon={bookOfMormon} width={0} />
-            <DefaultFullTextView bookOfMormon={bookOfMormon} />
+            {/* <DefaultFullTextView bookOfMormon={bookOfMormon} /> */}
         </Splitter>
     )
 }
