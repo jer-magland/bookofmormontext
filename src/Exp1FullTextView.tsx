@@ -1,7 +1,6 @@
 import { BookOfMormon, Verse } from './bookofmormon'
 import React, {FunctionComponent, useMemo} from 'react'
 import Splitter from './Splitter'
-import DefaultFullTextView from './DefaultFullTextView'
 
 type Props = {
     bookOfMormon: BookOfMormon

@@ -159,6 +159,10 @@ export class Book {
         const vn = parseInt(v[1])
         return this.chapter(cn).verse(vn)
     }
+    matchesReference(ref: string) {
+        const ref2 = replaceAbbreviations(ref)
+        return ((ref2 === this.name) || (ref2.startsWith(this.name + ' ')))
+    }
     get fullTitle() {
         return this.data.full_title
     }

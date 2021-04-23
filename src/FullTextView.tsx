@@ -1,6 +1,6 @@
 import { BookOfMormon } from './bookofmormon'
 import React, {FunctionComponent} from 'react'
-import DefaultFullTextView from './DefaultFullTextView'
+import DefaultTextView from './DefaultTextView/DefaultTextView'
 import Exp1FullTextView from './Exp1FullTextView'
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 
 const FullTextView: FunctionComponent<Props> = ({ bookOfMormon, mode, width, height }) => {
     if (mode === 'default') {
-        return <DefaultFullTextView bookOfMormon={bookOfMormon} />
+        return <DefaultTextView bookOfMormon={bookOfMormon} />
     }
     else if (mode === 'experimental1') {
         return <Exp1FullTextView bookOfMormon={bookOfMormon} width={width} height={height} />
