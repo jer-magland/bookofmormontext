@@ -1,5 +1,5 @@
 import { Book, BookOfMormon, Chapter, Testimony, TitlePage, Verse } from './bookofmormon'
-import React, {FunctionComponent, useMemo} from 'react'
+import React, {FunctionComponent} from 'react'
 
 type Props = {
     bookOfMormon: BookOfMormon
@@ -23,6 +23,12 @@ const DefaultFullTextView: FunctionComponent<Props> = ({ bookOfMormon }) => {
                     </div>
                 ))
             }
+            <hr />
+            <span style={{fontStyle: "italic"}}>
+                <p>Book of Mormon text data obtained from: <a href="https://github.com/bcbooks/scriptures-json">https://github.com/bcbooks/scriptures-json</a></p>
+                <p>This is an open source project: <a href="https://github.com/jer-magland/bookofmormontext">https://github.com/jer-magland/bookofmormontext</a></p>
+                <p>This is not an official website of The Church of Jesus Christ of Latter-day Saints</p>
+            </span>
         </div>
     )
 }

@@ -1,11 +1,11 @@
 .App {
   /* text-align: center; */
-  padding: 15px;
-  max-width: 800px;
-  margin: auto;
+  padding: 0px;
 }
 
 .FullText {
+  max-width: 800px;
+  margin: auto;
 }
 
 .TitlePageTitle {
