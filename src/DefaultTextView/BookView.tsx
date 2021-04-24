@@ -1,6 +1,7 @@
 import { Book } from '../bookofmormon'
 import React, {FunctionComponent} from 'react'
 import ChapterView from './ChapterView'
+import { usePreferences } from '../common/hooks'
 
 
 type BookViewProps = {
@@ -8,6 +9,7 @@ type BookViewProps = {
 }
 
 const BookView: FunctionComponent<BookViewProps> = ({ book }) => {
+    const {preferences} = usePreferences()
     return <div>
         <h1 className="BookTitle">{book.fullTitle}</h1>
         {
@@ -22,7 +24,7 @@ const BookView: FunctionComponent<BookViewProps> = ({ book }) => {
         }
         {
             book.chapters.map(chapter => (
-                <ChapterView key={chapter.reference} chapter={chapter} />
+                <ChapterView key={chapter.reference} chapter={chapter} showHeading={preferences.showChapterTitles} />
             ))
         }
     </div>

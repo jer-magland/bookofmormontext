@@ -9,11 +9,34 @@ export const BookOfMormonProviderContext = createContext<{
     bookOfMormon: loadBookOfMormon()
 })
 
-
 export const useBookOfMormon = () => {
     const { bookOfMormon } = useContext(BookOfMormonProviderContext)
     return bookOfMormon
 }
+
+export type Preferences = {
+    separateVerses: boolean
+    showPunctuation: boolean
+    showChapterTitles: boolean
+}
+
+export const PreferencesProviderContext = createContext<{
+    preferences: Preferences
+    setPreferences: (p: Preferences) => void
+}>({
+    preferences: {
+        separateVerses: true,
+        showPunctuation: true,
+        showChapterTitles: true
+    },
+    setPreferences: (p: Preferences) => {}
+})
+
+export const usePreferences = () => {
+    const {preferences, setPreferences} = useContext(PreferencesProviderContext)
+    return {preferences, setPreferences}
+}
+
 
 export const useCurrentBookChapter = () => {
     const location = useLocation()

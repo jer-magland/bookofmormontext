@@ -72,7 +72,6 @@ for (let b of ['1 Nephi', '2 Nephi', 'Jacob', 'Enos', 'Jarom', 'Omni', 'Words of
 }
 
 const replaceAbbreviations = (x: string) => {
-    console.log(_abbreviations)
     let y = x
     for (let k in _abbreviations) {
         if (y === k) y = _abbreviations[k]

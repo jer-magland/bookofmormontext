@@ -1,10 +1,10 @@
 import { Book, Chapter } from './bookofmormon'
 import React, {FunctionComponent, useCallback, useState} from 'react'
 import Hyperlink from './DefaultTextView/Hyperlink'
-import { Drawer, IconButton } from '@material-ui/core'
+import { Drawer, FormControlLabel, IconButton, Switch } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import { useHistory, useLocation } from 'react-router'
-import { useBookOfMormon, useMode } from './common/hooks'
+import { useBookOfMormon, useMode, usePreferences } from './common/hooks'
 
 
 const BookLink: FunctionComponent<{book: Book, onClick: (book: Book) => void}> = ({onClick, book}) => {
@@ -104,12 +104,63 @@ const SideDrawer: FunctionComponent = () => {
                         )
                     }
                     <div style={{height: 30}} />
+                    <Preferences />
+                    <div style={{height: 30}} />
                     <h3>Select mode</h3>
                     <div><SetModeLink mode="default" onClick={handleClose} /></div>
                     <div><SetModeLink mode="experimental1" onClick={handleClose} /></div>
                 </div>
             </Drawer>
         </div>
+    )
+}
+
+const prefs = [
+    {
+        key: 'separateVerses',
+        label: 'Separate verses'
+    },
+    {
+        key: 'showPunctuation',
+        label: 'Show punctuation'
+    },
+    {
+        key: 'showChapterTitles',
+        label: 'Chapter titles'
+    }
+]
+
+const PrefControl: FunctionComponent<{pref: {key: string, label: string}}> = ({pref}) => {
+    const {preferences, setPreferences} = usePreferences()
+    const handleChange = useCallback((evt: any, checked: boolean) => {
+        setPreferences({...preferences, [pref.key]: checked})
+    }, [setPreferences, preferences, pref])
+    return (
+        <div>
+            <FormControlLabel
+                control={
+                    <Switch
+                        checked={(preferences as any)[pref.key]}
+                        onChange={handleChange}
+                        name={pref.key}
+                        color="primary"
+                    />
+                }
+                label={pref.label}
+            />
+        </div>
+    )
+}
+
+const Preferences: FunctionComponent = () => {
+    return (
+        <span>
+            {
+                prefs.map(p => (
+                    <PrefControl key={p.key} pref={p} />
+                ))
+            }
+        </span>
     )
 }
 

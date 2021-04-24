@@ -39,7 +39,7 @@ const DefaultTextView: FunctionComponent<Props> = ({width, height}) => {
             }
             {
                 chapter ? (
-                    <ChapterView chapter={chapter} />
+                    <ChapterView chapter={chapter} showHeading={true} />
                 ) : book ? (
                     <BookView book={book} />
                 ) : (

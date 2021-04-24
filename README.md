@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# bookofmormontext
+
+This site is hosted live at: https://www.bookofmormontext.org
+
+## Instructions for developers
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
