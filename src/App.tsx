@@ -1,17 +1,9 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import FullTextView from './FullTextView';
-import {load as loadBookOfMormon} from './bookofmormon'
-import {useHistory, useLocation} from 'react-router-dom'
-import QueryString from 'querystring'
-import MenuBar from './MenuBar';
-
-const useBookOfMormon = () => {
-    return useMemo(() => {
-        return loadBookOfMormon()
-    }, [])
-}
+import { useCurrentBookChapter, useMode } from './common/hooks';
+import SideDrawer from './SideDrawer';
 
 //////////////////////////////////////////////////////////////
 
@@ -41,28 +33,24 @@ function useWindowDimensions() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 function App() {
-  const bom = useBookOfMormon()
-
   const { width, height } = useWindowDimensions()
 
-  const location = useLocation()
-  const history = useHistory()
-  const query = QueryString.parse(location.search.slice(1));
+  const mode = useMode()
 
-  const mode = (query.mode || 'default') as 'default' | 'experimental1'
-
-  const handleSetMode = useCallback((mode: 'default' | 'experimental1') => {
-    const location2 = {...location}
-    location2.search = mode === 'default' ? '' : `?mode=${mode}`
-    history.push(location2)
-  }, [])
+  const {book, chapter} = useCurrentBookChapter()
 
   if (!['default', 'experimental1'].includes(mode)) return <h3 style={{padding: 10}}>Invalid mode: {mode}</h3>
 
+  const topHeight = 35
+  const keyForResettingScrollPosition = `${book ? book.name : ''}-${chapter ? chapter.reference : ''}`
   return (
     <div className="App">
-      <MenuBar mode={mode} setMode={handleSetMode} />
-      <FullTextView width={width} height={height - 20} bookOfMormon={bom} mode={mode} />
+      <div style={{width, height: topHeight}}>
+          <SideDrawer />
+      </div>
+      <div key={keyForResettingScrollPosition} style={{width, height: height - topHeight, overflowY: 'auto'}}>
+        <FullTextView width={width} height={height - 20} mode={mode} />
+      </div>
     </div>
   );
 }

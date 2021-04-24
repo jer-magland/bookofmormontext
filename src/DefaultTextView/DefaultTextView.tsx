@@ -1,44 +1,27 @@
-import { BookOfMormon } from '../bookofmormon'
-import React, {FunctionComponent, useEffect, useRef, useState} from 'react'
+import React, {FunctionComponent} from 'react'
 import TitlePageView from './TitlePageView'
 import TestimonyView from './TestimonyView'
 import BookView from './BookView'
+import { useBookOfMormon, useCurrentBookChapter } from '../common/hooks'
+import ChapterView from './ChapterView'
 
 type Props = {
-    bookOfMormon: BookOfMormon
-    bookReference?: string
-    chapterReference?: string
+    width: number
+    height: number
 }
 
-// thanks: https://usehooks-typescript.com/react-hook/use-interval
-function useInterval(callback: () => void, delay: number) {
-    const savedCallback = useRef<(() => void) | null>(null)
-    // Remember the latest callback.
-    useEffect(() => {
-        savedCallback.current = callback
-    });
-    // Set up the interval.
-    useEffect(() => {
-        function tick() {
-            if (typeof (savedCallback === null || savedCallback === void 0 ? void 0 : savedCallback.current) !== 'undefined') {
-                savedCallback === null || savedCallback === void 0 ? void 0 : savedCallback.current && savedCallback.current()
-            }
-        }
-        if (delay !== null) {
-            const id = setInterval(tick, delay);
-            return () => clearInterval(id);
-        }
-    }, [delay]);
-}
+const DefaultTextView: FunctionComponent<Props> = ({width, height}) => {
+    const bookOfMormon = useBookOfMormon()
+    const {book, chapter} = useCurrentBookChapter()
 
-const DefaultTextView: FunctionComponent<Props> = ({ bookOfMormon, bookReference, chapterReference }) => {
-    const showTitlePage = ((!bookReference) && (!chapterReference))
-    const showTestimonies = ((!bookReference) && (!chapterReference))
-    const [maxNumBooks, setMaxNumBooks] = useState(2)
-    useInterval(() => {
-        setMaxNumBooks((m) => (m + 1))
-    }, 300)
+    const showTitlePage = ((!book) && (!chapter))
+    const showTestimonies = ((!book) && (!chapter))
+    // const [maxNumBooks, setMaxNumBooks] = useState(2)
+    // useInterval(() => {
+    //     setMaxNumBooks((m) => (m + 1))
+    // }, 300)
     return (
+        
         <div className="FullText">
             {
                 showTitlePage && (
@@ -55,15 +38,21 @@ const DefaultTextView: FunctionComponent<Props> = ({ bookOfMormon, bookReference
                 )
             }
             {
-                bookOfMormon.books.filter(b => {
-                    if (bookReference) return (b.matchesReference(bookReference))
-                    else if (chapterReference) return (b.matchesReference(chapterReference))
-                    else return true
-                }).filter((b, i) => (i < maxNumBooks)).map(b => (
-                    <div key={b.name}>
-                        <BookView book={b} />
-                    </div>
-                ))
+                chapter ? (
+                    <ChapterView chapter={chapter} />
+                ) : book ? (
+                    <BookView book={book} />
+                ) : (
+                    <span>
+                        {
+                            bookOfMormon.books.map(b => (
+                                <div key={b.name}>
+                                    <BookView book={b} />
+                                </div>
+                            ))
+                        }
+                    </span>
+                )
             }
             <hr />
             <span style={{fontStyle: "italic"}}>

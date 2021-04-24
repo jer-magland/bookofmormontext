@@ -10,8 +10,8 @@ const TestimonyView: FunctionComponent<TestimonyViewProps> = ({ testimony }) => 
         <h1 className="TestimonyTitle">{testimony.title}</h1>
         <div className="TestimonyText">{testimony.text}</div>
         {
-            testimony.witnesses.map(witness => (
-                <div className="TestimonyWitness">{witness}</div>
+            testimony.witnesses.map((witness, i) => (
+                <div key={i} className="TestimonyWitness">{witness}</div>
             ))
         }
     </div>

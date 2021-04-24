@@ -11,8 +11,8 @@ const TitlePageView: FunctionComponent<TitlePageViewProps> = ({ titlePage }) => 
         <h1 className="TitlePageTitle">{titlePage.title}</h1>
         <div className="TitlePageSubtitle">{titlePage.subtitle}</div>
         {
-            titlePage.text.map(txt => (
-                <div className="TitlePageText">{txt}</div>
+            titlePage.text.map((txt, i) => (
+                <div key={i} className="TitlePageText">{txt}</div>
             ))
         }
     </div>

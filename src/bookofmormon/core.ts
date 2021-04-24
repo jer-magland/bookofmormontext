@@ -72,8 +72,10 @@ for (let b of ['1 Nephi', '2 Nephi', 'Jacob', 'Enos', 'Jarom', 'Omni', 'Words of
 }
 
 const replaceAbbreviations = (x: string) => {
+    console.log(_abbreviations)
     let y = x
     for (let k in _abbreviations) {
+        if (y === k) y = _abbreviations[k]
         if (y.startsWith(k + ' ')) y = _abbreviations[k] + x.slice(k.length)
     }
     return y
@@ -103,7 +105,7 @@ export class Verse {
 
 export class Chapter {
     #verses: Verse[] = []
-    constructor(private data: ChapterData) {
+    constructor(private data: ChapterData, private _book: Book, private _number: number) {
         data.verses.forEach(v => {
             this.#verses.push(new Verse(v))
         })
@@ -125,13 +127,19 @@ export class Chapter {
     get heading() {
         return this.data.heading
     }
+    get book() {
+        return this._book
+    }
+    get number() {
+        return this._number
+    }
 }
 
 export class Book {
     #chapters: Chapter[] = []
     constructor(private data: BookData) {
-        data.chapters.forEach(c => {
-            this.#chapters.push(new Chapter(c))
+        data.chapters.forEach((c, i) => {
+            this.#chapters.push(new Chapter(c, this, i + 1))
         })
     }
     get name() {
@@ -161,7 +169,7 @@ export class Book {
     }
     matchesReference(ref: string) {
         const ref2 = replaceAbbreviations(ref)
-        return ((ref2 === this.name) || (ref2.startsWith(this.name + ' ')))
+        return ((ref2 === this.name) || (ref2.startsWith(this.name + ' ')) || (ref2 === this.ldsSlug) || (ref2.startsWith(this.ldsSlug + ' ')))
     }
     get fullTitle() {
         return this.data.full_title
@@ -234,17 +242,18 @@ export class BookOfMormon {
         return this.verses.reduce((prev, v, i) => ([...prev, ...v.words]), [] as string[])
     }
     book(name: string) {
-        const name2 = replaceAbbreviations(name)
-        const ret = this.books.filter(b => (b.name === name2))[0]
+        const ret = this.books.filter(b => (b.matchesReference(name)))[0]
         if (!ret) throw Error(`Unable to find book: ${name}`)
         return ret
     }
     chapter(name: string) {
-        const name2 = replaceAbbreviations(name)
         for (let b of this.books) {
-            if (name2.startsWith(b.name + ' ')) {
-                const num = parseInt(name2.slice(b.name.length + 1))
-                return b.chapter(num)
+            if (b.matchesReference(name)) {
+                const i = name.lastIndexOf(' ')
+                if (i >= 0) {
+                    const num = parseInt(name.slice(i + 1))
+                    return b.chapter(num)
+                }
             }
         }
         throw Error(`Unable to find chapter ${name}`)

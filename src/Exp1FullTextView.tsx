@@ -1,21 +1,21 @@
-import { BookOfMormon, Verse } from './bookofmormon'
+import { Verse } from './bookofmormon'
 import React, {FunctionComponent, useMemo} from 'react'
 import Splitter from './Splitter'
+import { useBookOfMormon, useCurrentBookChapter } from './common/hooks'
 
 type Props = {
-    bookOfMormon: BookOfMormon
     width: number
     height: number
 }
 
-const Exp1FullTextView: FunctionComponent<Props> = ({ bookOfMormon, width, height }) => {
+const Exp1FullTextView: FunctionComponent<Props> = ({ width, height }) => {
     return (
         <Splitter
             width={width}
             height={height}
             initialPosition={Math.floor(2 * width / 3)}
         >
-            <VerseBoxes bookOfMormon={bookOfMormon} width={0} />
+            <VerseBoxes width={0} />
             {/* <DefaultFullTextView bookOfMormon={bookOfMormon} /> */}
         </Splitter>
     )
@@ -23,7 +23,6 @@ const Exp1FullTextView: FunctionComponent<Props> = ({ bookOfMormon, width, heigh
 
 /////////////////////////////////////////////////////////////////////////
 type VerseBoxesProps = {
-    bookOfMormon: BookOfMormon
     width: number
 }
 
@@ -35,17 +34,23 @@ type VerseRecord = {
     color: string
 }
 
-const VerseBoxes: FunctionComponent<VerseBoxesProps> = ({bookOfMormon, width}) => {
+const VerseBoxes: FunctionComponent<VerseBoxesProps> = ({width}) => {
+    const bookOfMormon = useBookOfMormon()
     const verseWidth = (v: Verse) => {
         return Math.max(10, v.words.length * 0.4)
     }
     const verseColor = (v: Verse) => {
         return v.words.map(w => (w.toLowerCase())).includes('charity') || v.words.map(w => (w.toLowerCase())).includes('love') ? 'rgb(200, 150, 150)': 'lightgray'
     }
+    const {book: currentBook} = useCurrentBookChapter()
+    const books = useMemo(() => {
+        if (currentBook) return [currentBook]
+        else return bookOfMormon.books
+    }, [bookOfMormon, currentBook])
     const verseRows = useMemo(() => {
         const W = width - 15
         const list: VerseRecord[] = []
-        bookOfMormon.books.forEach(book => {
+        books.forEach(book => {
             list.push({type: 'book', width: 0, marginRight: 0, reference: book.name, color: 'black'})
             book.chapters.forEach(chapter => {
                 list.push({type: 'chapter', width: 0, marginRight: 0, reference: chapter.reference, color: 'black'})
@@ -86,7 +91,7 @@ const VerseBoxes: FunctionComponent<VerseBoxesProps> = ({bookOfMormon, width}) =
             rows.push(currentRow)
         }
         return rows
-    }, [bookOfMormon, width])
+    }, [width, books])
     const verseHeight = 6
     return (
         <div style={{padding: 10}}>

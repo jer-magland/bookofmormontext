@@ -1,7 +1,6 @@
 import { Book } from '../bookofmormon'
 import React, {FunctionComponent} from 'react'
 import ChapterView from './ChapterView'
-import WhenVisible from './WhenVisible'
 
 
 type BookViewProps = {

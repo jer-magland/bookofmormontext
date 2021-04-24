@@ -17,7 +17,7 @@ const ChapterView: FunctionComponent<ChapterViewProps> = ({ chapter }) => {
         }
         {
             chapter.verses.map((v, i) => (
-                <VerseView verse={v} verseNumber={i + 1} />
+                <VerseView key={i} verse={v} verseNumber={i + 1} />
             ))
         }
     </div>
