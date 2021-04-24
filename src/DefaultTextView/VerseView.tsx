@@ -13,8 +13,8 @@ const VerseView: FunctionComponent<VerseViewProps> = ({ verse, verseNumber }) =>
         let txt = verse.text
         if (!preferences.showPunctuation) {
             // thanks https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
-            // added —
-            txt = txt.replace(/[.,/#!$%^&*;:{}=\-_`~()—]/g,"").toLowerCase()
+            // added —, ?
+            txt = txt.replace(/[.,/#!$%^&*;:{}=\-_`~()—?]/g,"").toLowerCase()
         }
         return txt
     }, [preferences.showPunctuation, verse])

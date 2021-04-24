@@ -17,8 +17,8 @@ const ChapterView: FunctionComponent<ChapterViewProps> = ({ chapter, showHeading
             let txt = chapter.verses.map(v => v.text).join(' ')
             if (!preferences.showPunctuation) {
                 // thanks https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
-                // added —
-                txt = txt.replace(/[.,/#!$%^&*;:{}=\-_`~()—]/g,"").toLowerCase()
+                // added —, ?
+                txt = txt.replace(/[.,/#!$%^&*;:{}=\-_`~()—?]/g,"").toLowerCase()
             }
             return txt
         }

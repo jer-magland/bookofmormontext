@@ -1,7 +1,7 @@
 import { Book, Chapter } from './bookofmormon'
 import React, {FunctionComponent, useCallback, useState} from 'react'
 import Hyperlink from './DefaultTextView/Hyperlink'
-import { Drawer, FormControlLabel, IconButton, Switch } from '@material-ui/core'
+import { Button, Drawer, FormControlLabel, IconButton, Switch } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import { useHistory, useLocation } from 'react-router'
 import { useBookOfMormon, useMode, usePreferences } from './common/hooks'
@@ -153,6 +153,7 @@ const PrefControl: FunctionComponent<{pref: {key: string, label: string}}> = ({p
 }
 
 const Preferences: FunctionComponent = () => {
+    const {savePreferences} = usePreferences()
     return (
         <span>
             {
@@ -160,6 +161,7 @@ const Preferences: FunctionComponent = () => {
                     <PrefControl key={p.key} pref={p} />
                 ))
             }
+            <Button onClick={savePreferences}>Save preferences</Button>
         </span>
     )
 }

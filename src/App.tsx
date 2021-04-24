@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import FullTextView from './FullTextView';
@@ -38,6 +38,25 @@ const defaultPreferences: Preferences = {
   showChapterTitles: true
 }
 
+function usePersistent<Type>(key: string) {
+  const [storedValue, setStoredValue] = useState<Type | null>(null)
+  useEffect(() => {
+    const x = localStorage.getItem(key)
+    if (!x) return undefined
+    try {
+      setStoredValue(JSON.parse(x) as Type)
+    }
+    catch(err) {
+      
+    }
+  }, [key])
+  const setValue = useCallback((val: Type) => {
+    localStorage.setItem(key, JSON.stringify(val))
+    setStoredValue(val)
+  }, [key, setStoredValue])
+  return {value: storedValue, setValue}
+}
+
 function App() {
   const { width, height } = useWindowDimensions()
 
@@ -46,13 +65,20 @@ function App() {
   const {book, chapter} = useCurrentBookChapter()
 
   const [preferences, setPreferences] = useState<Preferences>(defaultPreferences)
+  const {value: persistentPreferences, setValue: setPersistentPreferences} = usePersistent<Preferences>('preferences')
+  const savePreferences = useCallback(() => {
+    setPersistentPreferences(preferences)      
+  }, [preferences, setPersistentPreferences])
+  useEffect(() => {
+    setPreferences({...defaultPreferences, ...persistentPreferences})
+  }, [persistentPreferences])
 
   if (!['default', 'experimental1'].includes(mode)) return <h3 style={{padding: 10}}>Invalid mode: {mode}</h3>
 
   const topHeight = 35
   const keyForResettingScrollPosition = `${book ? book.name : ''}-${chapter ? chapter.reference : ''}`
   return (
-    <PreferencesProviderContext.Provider value={{preferences, setPreferences}}>
+    <PreferencesProviderContext.Provider value={{preferences, setPreferences, savePreferences}}>
       <div className="App">
         <div style={{width, height: topHeight}}>
             <SideDrawer />

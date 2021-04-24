@@ -23,18 +23,20 @@ export type Preferences = {
 export const PreferencesProviderContext = createContext<{
     preferences: Preferences
     setPreferences: (p: Preferences) => void
+    savePreferences: () => void
 }>({
     preferences: {
         separateVerses: true,
         showPunctuation: true,
         showChapterTitles: true
     },
-    setPreferences: (p: Preferences) => {}
+    setPreferences: (p: Preferences) => {},
+    savePreferences: () => {}
 })
 
 export const usePreferences = () => {
-    const {preferences, setPreferences} = useContext(PreferencesProviderContext)
-    return {preferences, setPreferences}
+    const {preferences, setPreferences, savePreferences} = useContext(PreferencesProviderContext)
+    return {preferences, setPreferences, savePreferences}
 }
 
 
