@@ -12,9 +12,9 @@ const VerseView: FunctionComponent<VerseViewProps> = ({ verse, verseNumber }) =>
     const text = useMemo(() => {
         let txt = verse.text
         if (!preferences.showPunctuation) {
-            // thanks https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
-            // added —, ?
-            txt = txt.replace(/[.,/#!$%^&*;:{}=\-_`~()—?]/g,"").toLowerCase()
+            txt = txt.replaceAll('—', '— ') // make sure there is a space after the em-dashes
+            txt = txt.replace(/[^a-zA-Z- ]/g, '')
+            txt = txt.replace('  ', ' ')
         }
         return txt
     }, [preferences.showPunctuation, verse])

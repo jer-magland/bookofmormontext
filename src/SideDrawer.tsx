@@ -4,7 +4,7 @@ import Hyperlink from './DefaultTextView/Hyperlink'
 import { Button, Drawer, FormControlLabel, IconButton, Switch } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import { useHistory, useLocation } from 'react-router'
-import { useBookOfMormon, useMode, usePreferences } from './common/hooks'
+import { Preferences, useBookOfMormon, useMode, usePreferences } from './common/hooks'
 
 
 const BookLink: FunctionComponent<{book: Book, onClick: (book: Book) => void}> = ({onClick, book}) => {
@@ -104,7 +104,7 @@ const SideDrawer: FunctionComponent = () => {
                         )
                     }
                     <div style={{height: 30}} />
-                    <Preferences />
+                    <PreferencesControl />
                     <div style={{height: 30}} />
                     <h3>Select mode</h3>
                     <div><SetModeLink mode="default" onClick={handleClose} /></div>
@@ -118,19 +118,25 @@ const SideDrawer: FunctionComponent = () => {
 const prefs = [
     {
         key: 'separateVerses',
-        label: 'Separate verses'
-    },
-    {
-        key: 'showPunctuation',
-        label: 'Show punctuation'
+        label: 'Separate verses',
+        disabled: (preferences: Preferences) => {return preferences.showCustomPunctuation}
     },
     {
         key: 'showChapterTitles',
         label: 'Chapter titles'
+    },
+    {
+        key: 'showPunctuation',
+        label: 'Show punctuation',
+        disabled: (preferences: Preferences) => {return preferences.showCustomPunctuation}
+    },
+    {
+        key: 'showCustomPunctuation',
+        label: 'Custom punctuation'
     }
 ]
 
-const PrefControl: FunctionComponent<{pref: {key: string, label: string}}> = ({pref}) => {
+const PrefControl: FunctionComponent<{pref: {key: string, label: string, disabled?: (preferences: Preferences) => boolean}}> = ({pref}) => {
     const {preferences, setPreferences} = usePreferences()
     const handleChange = useCallback((evt: any, checked: boolean) => {
         setPreferences({...preferences, [pref.key]: checked})
@@ -144,6 +150,7 @@ const PrefControl: FunctionComponent<{pref: {key: string, label: string}}> = ({p
                         onChange={handleChange}
                         name={pref.key}
                         color="primary"
+                        disabled={pref.disabled ? pref.disabled(preferences) : false}
                     />
                 }
                 label={pref.label}
@@ -152,8 +159,11 @@ const PrefControl: FunctionComponent<{pref: {key: string, label: string}}> = ({p
     )
 }
 
-const Preferences: FunctionComponent = () => {
-    const {savePreferences} = usePreferences()
+const PreferencesControl: FunctionComponent = () => {
+    const {preferences, savePreferences} = usePreferences()
+    const handleClick = useCallback(() => {
+        savePreferences(preferences)
+    }, [preferences, savePreferences])
     return (
         <span>
             {
@@ -161,7 +171,7 @@ const Preferences: FunctionComponent = () => {
                     <PrefControl key={p.key} pref={p} />
                 ))
             }
-            <Button onClick={savePreferences}>Save preferences</Button>
+            <Button onClick={handleClick}>Save preferences</Button>
         </span>
     )
 }

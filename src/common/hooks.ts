@@ -16,22 +16,24 @@ export const useBookOfMormon = () => {
 
 export type Preferences = {
     separateVerses: boolean
-    showPunctuation: boolean
     showChapterTitles: boolean
+    showPunctuation: boolean
+    showCustomPunctuation: boolean
 }
 
 export const PreferencesProviderContext = createContext<{
     preferences: Preferences
     setPreferences: (p: Preferences) => void
-    savePreferences: () => void
+    savePreferences: (p: Preferences) => void
 }>({
     preferences: {
         separateVerses: true,
+        showChapterTitles: true,
         showPunctuation: true,
-        showChapterTitles: true
+        showCustomPunctuation: false
     },
     setPreferences: (p: Preferences) => {},
-    savePreferences: () => {}
+    savePreferences: (p: Preferences) => {}
 })
 
 export const usePreferences = () => {
@@ -39,6 +41,22 @@ export const usePreferences = () => {
     return {preferences, setPreferences, savePreferences}
 }
 
+export type CustomPunctuatedChapters = {[key: string]: string}
+
+export const CustomPunctuatedChaptersProviderContext = createContext<{
+    customPunctuatedChapters: CustomPunctuatedChapters
+    setCustomPunctuatedChapters: (cpc: CustomPunctuatedChapters) => void
+    saveCustomPunctuatedChapters: (cpc: CustomPunctuatedChapters) => void
+}>({
+    customPunctuatedChapters: {},
+    setCustomPunctuatedChapters: (cpc: CustomPunctuatedChapters) => {},
+    saveCustomPunctuatedChapters: (cpc: CustomPunctuatedChapters) => {}
+})
+
+export const useCustomPunctuatedChapters = () => {
+    const {customPunctuatedChapters, setCustomPunctuatedChapters, saveCustomPunctuatedChapters} = useContext(CustomPunctuatedChaptersProviderContext)
+    return {customPunctuatedChapters, setCustomPunctuatedChapters, saveCustomPunctuatedChapters}
+}
 
 export const useCurrentBookChapter = () => {
     const location = useLocation()

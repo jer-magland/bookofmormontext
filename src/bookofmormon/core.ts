@@ -118,7 +118,7 @@ export class Chapter {
         return ret
     }
     get text() {
-        return this.verses.map(v => (v.text)).join('\n')
+        return this.verses.map(v => (v.text)).join(' ')
     }
     get reference() {
         return this.data.reference
