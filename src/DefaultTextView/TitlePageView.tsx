@@ -7,7 +7,7 @@ type TitlePageViewProps = {
 }
 
 const TitlePageView: FunctionComponent<TitlePageViewProps> = ({ titlePage }) => {
-    return <div>
+    return <div style={{paddingLeft: 6, paddingRight: 6}}>
         <h1 className="TitlePageTitle">{titlePage.title}</h1>
         <div className="TitlePageSubtitle">{titlePage.subtitle}</div>
         {

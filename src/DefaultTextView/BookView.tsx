@@ -19,7 +19,7 @@ const BookView: FunctionComponent<BookViewProps> = ({ book }) => {
         }
         {
             book.heading && (
-                <div className="BookHeading">{book.heading}</div>
+                <div style={{paddingLeft: 6, paddingRight: 6}} className="BookHeading">{book.heading}</div>
             )
         }
         {

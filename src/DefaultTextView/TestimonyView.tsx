@@ -6,7 +6,7 @@ type TestimonyViewProps = {
 }
 
 const TestimonyView: FunctionComponent<TestimonyViewProps> = ({ testimony }) => {
-    return <div>
+    return <div style={{paddingLeft: 6, paddingRight: 6}}>
         <h1 className="TestimonyTitle">{testimony.title}</h1>
         <div className="TestimonyText">{testimony.text}</div>
         {

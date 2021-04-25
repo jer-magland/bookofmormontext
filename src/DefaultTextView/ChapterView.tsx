@@ -129,7 +129,7 @@ const ChapterView: FunctionComponent<ChapterViewProps> = ({ chapter, showHeading
     const editingProblem = useMemo(() => {
         return (mergePunctuation(chapterText, editedChapterText) !== editedChapterText)
     }, [chapterText, editedChapterText])
-    return <div>
+    return <div style={{paddingLeft: 6, paddingRight: 6}}>
         {
             showHeading ? (
                 <span>
