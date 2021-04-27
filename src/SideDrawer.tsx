@@ -4,7 +4,8 @@ import Hyperlink from './DefaultTextView/Hyperlink'
 import { Button, Drawer, FormControlLabel, IconButton, Switch } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import { useHistory, useLocation } from 'react-router'
-import { Preferences, useBookOfMormon, useMode, usePreferences } from './common/hooks'
+import { CustomPunctuatedChapters, Preferences, useBookOfMormon, useCustomPunctuatedChapters, useMode, usePreferences } from './common/hooks'
+import GoogleDriveControl from './googledrive/GoogleDriveControl'
 
 
 const BookLink: FunctionComponent<{book: Book, onClick: (book: Book) => void}> = ({onClick, book}) => {
@@ -33,6 +34,7 @@ const SetModeLink: FunctionComponent<{mode: 'default' | 'experimental1', onClick
 
 const SideDrawer: FunctionComponent = () => {
     const bookOfMormon = useBookOfMormon()
+    const {customPunctuatedChapters, setCustomPunctuatedChapters, saveCustomPunctuatedChapters} = useCustomPunctuatedChapters()
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [selectedBook, setSelectedBook] = useState<Book | null>(null)
     const handleOpen = useCallback(() => {
@@ -77,6 +79,10 @@ const SideDrawer: FunctionComponent = () => {
         history.push(l)
         handleClose()
     }, [history, location, handleClose])
+    const handleLoadPunctuation = useCallback((p: CustomPunctuatedChapters) => {
+        setCustomPunctuatedChapters(p)
+        saveCustomPunctuatedChapters(p)
+    }, [setCustomPunctuatedChapters, saveCustomPunctuatedChapters])
     return (
         <div>
             <IconButton onClick={handleOpen}><MenuIcon /></IconButton>
@@ -105,6 +111,8 @@ const SideDrawer: FunctionComponent = () => {
                     }
                     <div style={{height: 30}} />
                     <PreferencesControl />
+                    <div style={{height: 30}} />
+                    <GoogleDriveControl punctuation={customPunctuatedChapters} onLoadPunctuation={handleLoadPunctuation} />
                     <div style={{height: 30}} />
                     <h3>Select mode</h3>
                     <div><SetModeLink mode="default" onClick={handleClose} /></div>

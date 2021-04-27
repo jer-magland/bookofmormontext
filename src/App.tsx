@@ -4,6 +4,7 @@ import './App.css';
 import FullTextView from './FullTextView';
 import { CustomPunctuatedChaptersProviderContext, Preferences, PreferencesProviderContext, useCurrentBookChapter, useMode, CustomPunctuatedChapters } from './common/hooks';
 import SideDrawer from './SideDrawer';
+import { useLocation } from 'react-router';
 
 //////////////////////////////////////////////////////////////
 
@@ -88,6 +89,8 @@ function App() {
       setCustomPunctuatedChapters(initialPersistentCustomPunctuatedChapters)
     }
   }, [initialPersistentCustomPunctuatedChapters])
+
+  const location = useLocation()
 
   if (!['default', 'experimental1'].includes(mode)) return <h3 style={{padding: 10}}>Invalid mode: {mode}</h3>
 
