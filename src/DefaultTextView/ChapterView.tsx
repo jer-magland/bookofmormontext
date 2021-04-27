@@ -163,7 +163,7 @@ const ChapterView: FunctionComponent<ChapterViewProps> = ({ chapter, showHeading
                         ) : (
                             <span>
                                 <IconButton onClick={handleEdit}><CreateIcon /></IconButton>
-                                <pre style={{whiteSpace: 'pre-line', color: containsCustomText ? 'rgb(20, 20, 120)' : 'inherit'}} className="VerseText">{chapterText}</pre>
+                                <pre style={{whiteSpace: 'pre-line', color: containsCustomText ? 'rgb(60, 60, 60)' : 'inherit'}} className="VerseText">{chapterText}</pre>
                             </span>
                         )
                     }
